@@ -1,0 +1,11 @@
+{
+  "name": "gated-build-loop",
+  "owner": { "name": "michaelt-45" },
+  "plugins": [
+    {
+      "name": "gated-build-loop",
+      "source": "./",
+      "description": "Autonomous, gated multi-agent build loop for Claude Code."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "gated-build-loop",
+  "description": "Autonomous, gated multi-agent build loop for Claude Code: an orchestrator session, planning/build/review agents, eval-gated merges and human review gates.",
+  "version": "0.1.0",
+  "author": { "name": "michaelt-45" },
+  "license": "MIT",
+  "keywords": ["agents", "orchestration", "evals", "code-review", "workflow"]
+}
