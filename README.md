@@ -72,6 +72,10 @@ git clone https://github.com/michaelt-45/gated-build-loop ~/src/gated-build-loop
 ln -s ~/src/gated-build-loop/skills/gated-build-loop ~/.claude/skills/gated-build-loop
 ```
 
+On macOS, do not clone into `~/Downloads`, `~/Documents` or `~/Desktop`. These folders are privacy-protected: a
+symlinked skill there does not load in sessions whose terminal lacks access to that folder, and nothing reports an
+error. Use a folder like `~/src` or `~/code`.
+
 Optional, for usage-aware pausing: point your status line at `scripts/statusline-tee.sh` (see the comment in the
 file).
 
