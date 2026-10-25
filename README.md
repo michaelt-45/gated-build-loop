@@ -87,6 +87,12 @@ In a repo:
   writes the roadmap, the CLAUDE.md section, state and handoff files.
 - `continue the loop` (or paste the start prompt from `.planning/loop/HANDOFF.md` after `/clear`) → resumes.
 
+## Example
+
+[commit-kind](https://github.com/michaelt-45/commit-kind) is a small Python CLI that classifies commit messages,
+built end to end with this skill. Its `.planning/` folder keeps the roadmap, the plan, summary and review gate of
+every block, and the git history shows each block as branch, rework and merge on a green check.
+
 ## Credits
 
 Plan/execute/verify phases are inspired by [GSD Core](https://github.com/open-gsd/gsd-core) (MIT), the
