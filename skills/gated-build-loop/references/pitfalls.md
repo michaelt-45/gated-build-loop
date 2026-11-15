@@ -58,6 +58,16 @@ Each entry: what happened, how it showed up, the rule that prevents it.
 - **Too many questions stall the loop; too few surprise the human.** *Rule:* decide everything that is reversible,
   list it as "Decisions I made", ask only what blocks the next block, always with a recommendation.
 
+## Setup
+
+- **Setup laid a second planning system next to the existing one.** The repo already had a roadmap, a state file,
+  phase folders with plans, summaries and acceptance protocols, and audit reports as backlog; the fixed paths of
+  the skill would have created a parallel `.planning/loop/` and a second rule section in `CLAUDE.md`. The human
+  stopped it ("adapt to the existing structure, create nothing twice"). *Rule:* inventory first, map each loop
+  role to the existing file, create only what has no equivalent, and record the map in the existing rules section.
+- **Questions the repo already answers annoy.** Hard rules, check command and push rules stood in `CLAUDE.md`.
+  *Rule:* adopt them, say where they stand, ask only what is open.
+
 ## Worktrees and agent lifecycle
 
 - **Worktrees in the session's temp directory vanished.** They sat in the session's scratch folder; a session
@@ -126,3 +136,11 @@ Each entry: what happened, how it showed up, the rule that prevents it.
   "no" stops the loop.
 - **Unclear whether rework needs a second review.** *Rule:* say in the gate how the rework was verified (second
   review agent, or the orchestrator's diff read plus the check on the merged tree) so the human can object.
+- **A broad `git add` swept up a planning agent's half-finished files.** The orchestrator committed its own note with
+  `git add .planning` while a planning agent was still editing plans in the same tree; the commit carried part of the
+  agent's work under the wrong message. *Rule:* while an agent writes into the main tree, stage only the exact paths you
+  changed yourself; give agents their own worktree when both of you edit the same folder.
+- **A shared tool-driven test fixture can hide the real cause.** A focus bug was blamed on WebKit; the cause was the
+  probe running with `reducedMotion: "reduce"`, which turned a `visibility` change into a transition. *Rule:* when a
+  finding appears in only one configuration, list every setting the probe forces (motion, clock, fonts, locale) and
+  rerun with each switched off before naming a cause.
