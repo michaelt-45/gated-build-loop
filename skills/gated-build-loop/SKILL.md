@@ -16,13 +16,42 @@ Answer the user in their language. Gate documents and summaries follow the repo'
 - **setup**: bootstrap the loop in the current repo. Go to "Setup".
 - **run** (default after setup, or when the user says "continue", "weiter", or pastes the handoff prompt): go to "Run".
 
-If unclear, check whether `.planning/loop/HANDOFF.md` exists. If yes, run. If no, setup.
+If unclear, check whether the repo's `CLAUDE.md` has a build-loop section with a file map, or whether
+`.planning/loop/HANDOFF.md` exists. If either, run. If neither, setup.
+
+**File names in this skill are roles, not paths.** Wherever this skill names a loop file (`ROADMAP.md`, `STATE.md`,
+`HANDOFF.md`, `FOUNDER_REVIEW.md`, `HUMAN_TASKS.md`, `PLAN.md`, `SUMMARY.md`, `REVIEW.md`, `backlog/`), use the
+file the repo's file map assigns to that role. The fixed paths below apply only where the map names none.
 
 ## Setup
 
-Ask at most five questions, all at once, each with a recommended default:
+### 0. Adopt the existing structure first
 
-1. What is being built, in two sentences, and what is the first milestone?
+Most repos already plan somewhere. Before asking anything, inventory what is there: `CLAUDE.md`/`AGENTS.md`,
+`.planning/`, `docs/`, roadmaps, state or progress files, per-phase folders, plan/summary/review/acceptance files,
+backlogs, audit reports, hand-over notes, task lists for people. Then, per loop role:
+
+- **An equivalent exists** → use it, in its naming, language and format (e.g. a phase folder with
+  `XX-NN-PLAN.md` / `XX-NN-SUMMARY.md`, an acceptance protocol per phase as the gate, an audit report as the
+  backlog, a "session continuity" section as the handoff). A stale file is updated, not replaced.
+- **No equivalent** → create it at the path the repo's conventions suggest; the fixed path below is the fallback.
+- **Never create a second file for a role that already has one**, and never a parallel loop section in
+  `CLAUDE.md` next to existing working rules: add the missing lines (model tiers, gate, budgets, file map) to the
+  section that already describes how work is done, and change rules there that the loop contradicts.
+
+Write the result as a short file map (role → path) into that `CLAUDE.md` section. Show the map to the human with
+the questions.
+
+### 1. Questions
+
+Ask at most five questions, all at once, each with a recommended default. **Skip every question the repo already
+answers** (hard rules, check command, push rules usually stand in `CLAUDE.md`): say what you adopted and where it
+stands, so the human can overrule it. Ask instead what the repo leaves open, e.g. who builds (agents vs. an
+external tool named in the docs) and whether a passed gate may merge locally.
+
+1. What is being built, in two sentences, and what is the first milestone? "None yet" is a valid answer: then
+   setup ends with the file map and rules in place and no roadmap blocks, and the next run starts from the
+   human's request.
 2. Hard rules that must never be broken (privacy, read-only access, licences, no secrets, domain rules).
 3. The single command that proves the repo is healthy (`npm run check:all`, `make check`, `cargo test && clippy`...).
    If none exists, the first block creates it.
@@ -31,9 +60,12 @@ Ask at most five questions, all at once, each with a recommended default:
 5. Budgets: usage thresholds for pausing (default: 5-hour window 88 %, week 92 %), max parallel local agents (default
    2), whether cloud sessions may be used.
 
-Then create, from `templates/` in this skill:
+### 2. Files
 
-| File | Purpose |
+Only for roles the file map left empty, create from `templates/` in this skill (templates give the content, the
+repo's conventions give name, place and language):
+
+| Fallback file | Role |
 |---|---|
 | `CLAUDE.md` section from `templates/CLAUDE-loop-section.md` | hard rules, model tiers, gate template, definition of done |
 | `.planning/ROADMAP.md` | blocks with acceptance criteria that a machine or a five-click human check can verify |
@@ -47,11 +79,12 @@ Roadmap rules: blocks are small enough for one plan and one review; each has acc
 dependencies and parallel groups are explicit; the first blocks build the gate itself (check command, test data,
 evals) before features.
 
-Finish setup by showing the roadmap and asking for one "ok". After that, run.
+Finish setup by showing the file map and the roadmap (if a milestone was given) and asking for one "ok". After
+that, run — or, with no milestone, wait for the human's request.
 
 ## Run
 
-Read `CLAUDE.md`, `.planning/STATE.md`, `.planning/loop/HANDOFF.md`, the roadmap, then the backlog. Show the human
+Read `CLAUDE.md` (with its file map), then the files mapped to state, handoff, roadmap and backlog. Show the human
 the state in five lines plus open decisions. Then work without waiting:
 
 1. **Pick the next block(s)** from the roadmap, respecting dependencies. Take the highest-scored backlog entries that
@@ -68,7 +101,9 @@ the state in five lines plus open decisions. Then work without waiting:
    go to a new build agent; at most two rework rounds.
 5. **Merge** only when the review says merge-ready and, on the merged tree, the check command is green and the evals
    exit 0. Record the block as finished in the eval config and rewrite baselines (worse only with a stated reason).
-   Push if a remote exists. Put the gate at the top of `FOUNDER_REVIEW.md`, one line into `STATE.md`.
+   Push if a remote exists, unless the repo's rules put a step before a push (a deploy, a release note to
+   approve): then prepare that step and push only after the human's approval. Put the gate at the top of
+   `FOUNDER_REVIEW.md`, one line into `STATE.md`.
 6. **Present the gate** to the human in chat, short: what works now, proof, decisions they may overrule, open questions
    with the recommendation first. Answer format: "ok" / "ok, but <point>: <change>" / "no: <reason>". Do not wait for
    the answer to plan the next block. Wait only if a question changes the next block, or on "no".

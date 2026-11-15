@@ -8,6 +8,13 @@
 
 ## Build loop
 
+> Merge these lines into the repo's existing working-rules section; do not add a second section. Drop
+> lines the repo already states.
+
+**File map (role → path in this repo):** roadmap `<path>` · state `<path>` · handoff `<path>` · block folder
+`<path>/<BLOCK>/` with plan `<name>`, summary `<name>`, review `<name>` · gate `<path>` · human tasks `<path>` ·
+backlog `<path>`.
+
 **Orchestrator:** one session; plans and builds nothing itself; starts planning, build and review agents; keeps
 only plans, summaries and gates in context; keeps `.planning/STATE.md` and `.planning/loop/HANDOFF.md` current.
 
